@@ -19,8 +19,8 @@ namespace LINQHandsOn.Tests
       List<Product> products = RepositoryHelper.GetProducts();
       bool value = true;
 
-      // Write Your Query Here
-      
+            // Write Your Query Here
+            value = products.All(p => p.Category.Contains(' '));
 
       // Assertion
       Assert.IsFalse(value);
@@ -35,8 +35,8 @@ namespace LINQHandsOn.Tests
       List<Customer> customers = RepositoryHelper.GetCustomers();
       bool value = false;
 
-      // Write Your Query Here
-
+            // Write Your Query Here
+            value = customers.Any(c => c.LastName[0]=='W');
 
       // Assertion
       Assert.IsTrue(value);
@@ -52,8 +52,8 @@ namespace LINQHandsOn.Tests
       CustomerIdComparer pc = new();
       bool value = false;
 
-      // Write Your Query Here
-
+            // Write Your Query Here
+            value = customers.Any(c => pc.Equals(c, new Customer { CustomerId = 4009 }));
 
       // Assertion
       Assert.IsTrue(value);

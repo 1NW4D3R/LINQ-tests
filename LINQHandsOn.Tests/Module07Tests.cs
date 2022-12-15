@@ -62,7 +62,7 @@ namespace LINQHandsOn.Tests
       // Assertion
       Assert.AreEqual(list[0].OrderHeaderId, 8);
     }
-
+        
     [TestMethod]
     /// <summary>
     /// Write a LINQ query to get all distinct categories and return a list of Product objects sorted by the Category property.
@@ -75,7 +75,8 @@ namespace LINQHandsOn.Tests
             // Write Your Query Here
             list = ( from p in products
                      orderby p.Category
-                     select new Product { Category = p.Category}).Distinct().ToList();
+                     group p by p.Category into g
+                     select new Product { Category = g.Key}).ToList();
 
       // Assertions
       Assert.IsTrue(list.Count == 17);
@@ -91,9 +92,8 @@ namespace LINQHandsOn.Tests
       List<Customer> customers = RepositoryHelper.GetCustomers();
       List<Customer[]> list = new();
 
-      // Write Your Query Here
-      list = from c in customers
-             group c by 
+            // Write Your Query Here
+            list = customers.Chunk(3).ToList(); // Hát ezt a Chunk-olást teljesen véletlenszerûen találtam meg. Enélkül nagyon nehéz lett volna.
 
       // Assertions
       Assert.AreEqual(list.Count, 8);

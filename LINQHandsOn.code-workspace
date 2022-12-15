@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "LINQHandsOn.Tests"
+		},
+		{
+			"path": "LINQHandsOn"
+		}
+	],
+  "settings": {}
+}

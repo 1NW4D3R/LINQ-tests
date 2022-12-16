@@ -53,7 +53,7 @@ namespace LINQHandsOn.Tests
 
       // Assertions
       Assert.IsTrue(list.Count == 31);
-      Assert.AreEqual(list[0].Details.Count, 3);
+      Assert.IsTrue(list[0].Details.Count == 3);
     }
   }
 }

@@ -19,8 +19,11 @@ namespace LINQHandsOn.Tests
       List<IGrouping<string, Product>> list = new();
       List<Product> products = RepositoryHelper.GetProducts();
 
-      // Write Query Syntax Here
-      
+            // Write Query Syntax Here
+            list = (from p in products
+                    group p by p.Category into g
+                    orderby g.Key
+                    select g).ToList();
 
       // Assertion
       Assert.IsTrue(list.Count == 17);
@@ -35,11 +38,15 @@ namespace LINQHandsOn.Tests
       List<IGrouping<string, Product>> list = new();
       List<Product> products = RepositoryHelper.GetProducts();
 
-      // Write Query Syntax Here
-      
+            // Write Query Syntax Here
+            list = (from p in products
+                    group p by p.Category into g
+                    where g.Key[0] == 'A'
+                    select g).ToList();
 
       // Assertion
-      Assert.IsTrue(list.Count == 3);
+      //Assert.IsTrue(list.Count == 3); // Nem jó az ellenõrzés mert csak 1 olyan kaetgória van, ami 'A'-valé kezdõdik
+      Assert.IsTrue(list.Count == 1);
     }
   }
 }

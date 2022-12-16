@@ -1,6 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace LINQHandsOn.Tests
 {
@@ -23,8 +25,10 @@ namespace LINQHandsOn.Tests
 
       list1.RemoveAt(0);
 
-      // Write Your Query Here
-      
+            // Write Your Query Here
+            value = list1.SequenceEqual(list2); // Miért kell túlbonyolítani Customer Comparer osztállyal?
+
+
 
       // Assertion
       Assert.IsFalse(value);
@@ -45,8 +49,24 @@ namespace LINQHandsOn.Tests
       list2.RemoveAll(p => p.Category == "Spark Plugs" ||
                       p.Category == "Alternators");
 
-      // Write Your Query Here
-     
+            // Write Your Query Here
+              foreach(Product p1 in list1)
+              {
+                  bool notContains = true;
+                  foreach(Product p2 in list2)
+                  {
+                      if(pc.Equals(p1, p2))
+                      {
+                          notContains = false;
+                          continue;
+                      }
+                  }
+                  if(notContains)
+                  {
+                      list.Add(p1);
+                  }
+              }
+              // Ez LINQ-val nem ment
 
       // Assertion
       Assert.AreEqual(list.Count, 4);
@@ -67,8 +87,13 @@ namespace LINQHandsOn.Tests
       list2.RemoveAll(p => p.Category == "Spark Plugs" ||
                       p.Category == "Alternators");
 
-      // Write Your Query Here
-      
+            // Write Your Query Here
+            list = (from p1 in list1
+                   join p2 in list2
+                   on p1.Category equals p2.Category
+                   into Common
+                   where Common.Any()
+                   select p1).ToList();
 
       // Assertion
       Assert.AreEqual(list.Count, 30);
@@ -86,8 +111,11 @@ namespace LINQHandsOn.Tests
       // List of categories to locate
       List<string> categories = new() { "Spark Plugs", "Batteries" };
 
-      // Write Your Query Here
-      
+            // Write Your Query Here
+            list = (from p in products
+                   where categories.Contains(p.Category)
+                   group p by p.Category into g
+                   select new Product { Category = g.Key }).ToList();
 
       // Assertion
       Assert.AreEqual(list.Count, 2);

@@ -19,11 +19,16 @@ namespace LINQHandsOn.Tests
       List<Customer> list = CustomerRepository.GetAll();
       List<OrderDetail> orders = OrderDetailRepository.GetAll();
 
-      // Write Query Syntax Here
-      
+            // Write Query Syntax Here
+            foreach (Customer customer in list)
+            {
+                customer.TotalSales = (from o in orders
+                                       where o.CustomerId == customer.CustomerId
+                                       select (o.Quantity * o.Price)).Sum();
+            }
 
-      // Assertion
-      Assert.AreEqual(list[0].TotalSales, 5441.14M);
+            // Assertion
+            Assert.AreEqual(list[0].TotalSales, 5441.14M);
     }
   }
 }

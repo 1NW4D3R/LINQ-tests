@@ -21,7 +21,10 @@ namespace LINQHandsOn.Tests
       List<Order> list = new();
 
       // Write Your Query Here
-      
+      list = (from h in headers
+             join d in details
+             on h.OrderHeaderId equals d.OrderHeaderId
+             select new Order { OrderHeaderId = h.OrderHeaderId, OrderDetailId = d.OrderDetailId }).ToList();
 
       // Assertion
       Assert.IsTrue(list.Count == 54);
@@ -37,12 +40,20 @@ namespace LINQHandsOn.Tests
       List<OrderHeader> headers = RepositoryHelper.GetOrderHeaders();
       List<OrderDetail> details = RepositoryHelper.GetOrderDetails();
 
-      // Write Query Syntax Here
-     
+            // Write Query Syntax Here
+            list = (from h in headers
+                   select new HeaderAndDetails
+                   {
+                       Header = h,
+                       Details = (from d in details
+                                 where d.OrderHeaderId == h.OrderHeaderId
+                                 select d).ToList()
+                   }).ToList();
+            
 
       // Assertions
       Assert.IsTrue(list.Count == 31);
-      Assert.IsTrue(list[0].Details.Count == 3);
+      Assert.AreEqual(list[0].Details.Count, 3);
     }
   }
 }

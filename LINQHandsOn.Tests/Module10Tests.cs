@@ -24,7 +24,7 @@ namespace LINQHandsOn.Tests
       List<Product> list2 = ProductRepository.GetAll().Where(p => p.Price > 200).ToList();
 
       // Write Your Query Here
-      
+      list = list1.Union(list2).ToList(); // Nem igazán értem a feladatot. Miért kell ehhez is a ProductComparer.
 
       // Assertion
       Assert.AreEqual(list.Count, 4);
@@ -42,8 +42,8 @@ namespace LINQHandsOn.Tests
       // Load Customers by Email Address
       List<Customer> list2 = CustomerRepository.GetAll().Where(p => p.EmailAddress.Contains("mortco")).ToList();
 
-      // Write Your Query Here
-      
+            // Write Your Query Here
+            list = list1.Union(list2).ToList();
 
       // Assertion
       Assert.AreEqual(list.Count, 5);

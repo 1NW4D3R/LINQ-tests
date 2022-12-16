@@ -19,8 +19,10 @@ namespace LINQHandsOn.Tests
       int value = 0;
       List<OrderDetail> details = RepositoryHelper.GetOrderDetails();
 
-      // Write Query Syntax Here
-      
+            // Write Query Syntax Here
+            value = (from d in details
+                     where d.ProductId == 8
+                     select d).ToList().Count;
 
       // Assertion
       Assert.AreEqual(value, 6);
@@ -36,7 +38,9 @@ namespace LINQHandsOn.Tests
       List<OrderDetail> details = RepositoryHelper.GetOrderDetails();
 
       // Write Query Syntax Here
-      
+      value = (from d in details
+              select d.Price).Min();
+
 
       // Assertion
       Assert.AreEqual(value, 5.59M);
@@ -51,8 +55,10 @@ namespace LINQHandsOn.Tests
       OrderDetail value = new();
       List<OrderDetail> details = RepositoryHelper.GetOrderDetails();
 
-      // Write Query Syntax Here
-      
+            // Write Query Syntax Here
+            value = (from d in details
+                     where d.Price == details.Max(od => od.Price)
+                     select d).First();
 
       // Assertion
       Assert.AreEqual(value.OrderDetailId, 5);
@@ -68,7 +74,7 @@ namespace LINQHandsOn.Tests
       List<OrderDetail> details = RepositoryHelper.GetOrderDetails();
 
       // Write Query Syntax Here
-     
+     value = details.Sum(od => od.Price);
 
       // Assertion
       Assert.AreEqual(value, 5806.46M);
